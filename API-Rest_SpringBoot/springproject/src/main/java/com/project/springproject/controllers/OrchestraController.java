@@ -6,7 +6,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,21 +25,16 @@ import com.project.springproject.services.servicesInterfaces.OrchestraService;
  * Project.
  */
 @RestController
-@RequestMapping("/")
+@RequestMapping()
 public class OrchestraController {
 
-    /**
-     * Displays a welcome message.
-     *
-     * @return The welcome message.
-     */
-    @GetMapping()
-    public String displayWelcomeMessage() {
-        String res = "Hello from Spring Boot!\n";
-        res += "You are in the root directory!\n";
-        res += "You are running " + SpringApplication.class.getName() + "\n";
-        return res;
-    }
+    // @GetMapping("/hello")
+    // public String displayWelcomeMessage() {
+    // String res = "Hello from Spring Boot!\n";
+    // res += "You are in the root directory!\n";
+    // res += "You are running " + SpringApplication.class.getName() + "\n";
+    // return res;
+    // }
 
     @Autowired
     private OrchestraService orchestraService;
