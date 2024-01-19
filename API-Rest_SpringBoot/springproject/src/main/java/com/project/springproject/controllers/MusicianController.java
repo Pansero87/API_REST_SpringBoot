@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.springproject.dto.MusicianDTO;
 import com.project.springproject.services.servicesInterfaces.MusicianService;
@@ -47,6 +48,27 @@ public class MusicianController {
         } catch (Exception e) {
             logger.error("Internal server error: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Retrieves a ModelAndView object containing the view name and model attributes
+     * for displaying a list of musicians.
+     * 
+     * @return ModelAndView object representing the musicians list view
+     */
+    @GetMapping("/musicians/view-list")
+    public ModelAndView getAllMusiciansView() {
+        ModelAndView mav = new ModelAndView("musiciansList");
+        try {
+            logger.info("Getting all musicians");
+            List<MusicianDTO> musiciansList = musicianService.getAllMusicians();
+            mav.addObject("musicians", musiciansList);
+            logger.info("Musicians retrieved successfully");
+            return mav;
+        } catch (Exception e) {
+            logger.error("Internal server error: " + e.getMessage());
+            return mav;
         }
     }
 

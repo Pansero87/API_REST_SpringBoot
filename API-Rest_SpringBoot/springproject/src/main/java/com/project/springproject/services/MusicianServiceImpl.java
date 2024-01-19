@@ -80,24 +80,35 @@ public class MusicianServiceImpl implements MusicianService {
     }
 
     /**
-     * Retrieves all musicians from the database.
+     * Retrieves a list of all musicians along with their details.
      *
-     * @return a list of all musicians
-     * @throws RuntimeException if an error occurs while retrieving the musicians
+     * @return A list of MusicianDTO objects representing the musicians.
      */
     @Override
     public List<MusicianDTO> getAllMusicians() {
-        try {
-            List<Musician> musicians = musicianRepository.findAll();
-            List<MusicianDTO> musicianResult = new ArrayList<MusicianDTO>();
-            for (Musician musician : musicians) {
-                musicianResult.add(MusicianDTO.convertToDTO(musician));
+        List<Musician> musicians = musicianRepository.findAll();
+        List<MusicianDTO> musicianDTOs = new ArrayList<>();
+        for (Musician musician : musicians) {
+            MusicianDTO dto = new MusicianDTO();
+            dto.setId(musician.getId());
+            dto.setFirstname(musician.getFirstname());
+            dto.setLastname(musician.getLastname());
+            dto.setBirthdate(musician.getBirthdate());
+            dto.setInstrument(musician.getInstrument());
+            dto.setEmail(musician.getEmail());
+            // Check if the musician has an orchestra
+            if (musician.getOrchestra() != null) {
+                // Get the orchestra
+                Orchestra orchestra = orchestraRepository.findById(musician.getOrchestra().getId())
+                        .orElseThrow(() -> new NoSuchElementException(
+                                "No orchestra found with id: " + musician.getOrchestra().getId()));
+                dto.setOrchestraId(orchestra.getId());
+                dto.setOrchestraName(orchestra.getName());
 
             }
-            return musicianResult;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to get all musicians: " + e.getMessage());
+            musicianDTOs.add(dto);
         }
+        return musicianDTOs;
     }
 
     /**

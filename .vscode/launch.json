@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-SpringHibernateApplication<springproject>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.project.springproject.SpringHibernateApplication",
+      "projectName": "springproject",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

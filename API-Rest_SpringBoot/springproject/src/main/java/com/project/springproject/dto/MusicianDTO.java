@@ -22,6 +22,7 @@ public class MusicianDTO {
     private String instrument;
     private String email;
     private Long orchestraId;
+    private String orchestraName;
 
     /**
      * Converts a Musician entity to a MusicianDTO object.
@@ -37,6 +38,7 @@ public class MusicianDTO {
         musicianDTO.setBirthdate(musician.getBirthdate());
         musicianDTO.setInstrument(musician.getInstrument());
         musicianDTO.setEmail(musician.getEmail());
+        musicianDTO.setOrchestraName(musician.getOrchestra().getName());
         if (musician.getOrchestra() != null) {
             musicianDTO.setOrchestraId(musician.getOrchestra().getId());
         }
@@ -58,6 +60,7 @@ public class MusicianDTO {
         musician.setBirthdate(dto.getBirthdate());
         musician.setInstrument(dto.getInstrument());
         musician.setEmail(dto.getEmail());
+        musician.setOrchestra(null);
 
         return musician;
     }
