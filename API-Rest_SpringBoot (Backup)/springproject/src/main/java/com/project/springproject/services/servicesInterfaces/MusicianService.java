@@ -2,7 +2,7 @@ package com.project.springproject.services.servicesInterfaces;
 
 import java.util.List;
 
-import com.project.springproject.model.dto.MusicianDTO;
+import com.project.springproject.dto.MusicianDTO;
 
 /**
  * The MusicianService interface provides methods to manage musicians and their

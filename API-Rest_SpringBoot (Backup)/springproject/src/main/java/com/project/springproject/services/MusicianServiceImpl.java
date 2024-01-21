@@ -8,9 +8,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.springproject.dto.MusicianDTO;
 import com.project.springproject.model.Musician;
 import com.project.springproject.model.Orchestra;
-import com.project.springproject.model.dto.MusicianDTO;
 import com.project.springproject.repositories.MusicianRepository;
 import com.project.springproject.repositories.OrchestraRepository;
 import com.project.springproject.services.servicesInterfaces.MusicianService;
@@ -90,10 +90,10 @@ public class MusicianServiceImpl implements MusicianService {
         List<MusicianDTO> musicianDTOs = new ArrayList<>();
         for (Musician musician : musicians) {
             MusicianDTO dto = new MusicianDTO();
-            // dto.setId(musician.getId());
+            dto.setId(musician.getId());
             dto.setFirstname(musician.getFirstname());
             dto.setLastname(musician.getLastname());
-            // dto.setBirthdate(musician.getBirthdate());
+            dto.setBirthdate(musician.getBirthdate());
             dto.setInstrument(musician.getInstrument());
             dto.setEmail(musician.getEmail());
             // Check if the musician has an orchestra
@@ -102,7 +102,7 @@ public class MusicianServiceImpl implements MusicianService {
                 Orchestra orchestra = orchestraRepository.findById(musician.getOrchestra().getId())
                         .orElseThrow(() -> new NoSuchElementException(
                                 "No orchestra found with id: " + musician.getOrchestra().getId()));
-                // dto.setOrchestraId(orchestra.getId());
+                dto.setOrchestraId(orchestra.getId());
                 dto.setOrchestraName(orchestra.getName());
 
             }

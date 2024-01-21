@@ -3,7 +3,7 @@ package com.project.springproject.services.servicesInterfaces;
 
 import java.util.List;
 
-import com.project.springproject.model.dto.OrchestraDTO;
+import com.project.springproject.dto.OrchestraDTO;
 
 /**
  * The OrchestraService interface provides methods to manage orchestras.

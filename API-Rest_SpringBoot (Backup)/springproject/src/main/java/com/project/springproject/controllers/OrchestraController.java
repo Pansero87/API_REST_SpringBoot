@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.project.springproject.model.dto.OrchestraDTO;
+import com.project.springproject.dto.OrchestraDTO;
 import com.project.springproject.services.servicesInterfaces.OrchestraService;
 
 /**

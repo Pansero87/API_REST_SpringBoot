@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.springproject.dto.OrchestraDTO;
 import com.project.springproject.model.Orchestra;
-import com.project.springproject.model.dto.OrchestraDTO;
 import com.project.springproject.repositories.OrchestraRepository;
 import com.project.springproject.services.servicesInterfaces.OrchestraService;
 

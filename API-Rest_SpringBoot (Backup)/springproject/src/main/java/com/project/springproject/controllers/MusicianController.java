@@ -14,16 +14,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.project.springproject.model.dto.MusicianDTO;
+import com.project.springproject.dto.MusicianDTO;
 import com.project.springproject.services.servicesInterfaces.MusicianService;
 
 /**
  * This class represents the controller for managing musicians.
  */
 @RestController
+@RequestMapping()
 public class MusicianController {
 
     @Autowired

@@ -12,26 +12,26 @@
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
-                    <!-- <th>ID</th> -->
+                    <th>ID</th>
                     <th>Name</th>
-                    <!-- <th>Birthdate</th> -->
+                    <th>Birthdate</th>
                     <th>Email</th>
                     <th>Instrument</th>
-                    <!-- <th>Orchestra Id</th> -->
+                    <th>Orchestra Id</th>
                     <th>orchestra Name</th>
-
+                   
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="musician : ${musicians}">
-                    <!-- <td th:text="${musician.id}"></td> -->
+                    <td th:text="${musician.id}"></td>
                     <td th:text="${musician.firstname + ' ' + musician.lastname}"></td>
-                    <!-- <td th:text="${musician.birthdate}"></td> -->
+                    <td th:text="${musician.birthdate}"></td>
                     <td th:text="${musician.email}"></td>
                     <td th:text="${musician.instrument}"></td>
-                    <!-- <td th:text="${musician.orchestraId}"></td> -->
+                    <td th:text="${musician.orchestraId}"></td>
                     <td th:text="${musician.orchestraName}"></td>
-
+                    
                 </tr>
             </tbody>
         </table>
