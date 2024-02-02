@@ -1,15 +1,14 @@
 package com.project.springproject.model;
 
-import java.io.Serializable;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +31,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "orchestras")
-public class Orchestra implements Serializable {
+public class OrchestraEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +44,8 @@ public class Orchestra implements Serializable {
     private String estile;
     private String conductor;
 
-    @OneToMany(mappedBy = "orchestra", cascade = CascadeType.ALL)
-    private List<Musician> musicians;
+    @OneToMany(mappedBy = "orchestra")
+    @OrderColumn(name = "musician_order")
+    private List<MusicianEntity> musicians;
 
 }

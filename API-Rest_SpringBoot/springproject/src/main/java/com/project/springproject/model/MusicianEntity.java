@@ -1,6 +1,5 @@
 package com.project.springproject.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -12,9 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -26,12 +24,11 @@ import lombok.ToString;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @ToString
 @Entity
 @Table(name = "musicians")
-public class Musician implements Serializable {
+public class MusicianEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -45,5 +42,5 @@ public class Musician implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "orchestra_id", referencedColumnName = "id")
-    private Orchestra orchestra;
+    private OrchestraEntity orchestra;
 }

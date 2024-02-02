@@ -1,19 +1,23 @@
 package com.project.springproject.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.springproject.model.Musician;
-import com.project.springproject.model.Orchestra;
+import com.project.springproject.model.MusicianEntity;
+import com.project.springproject.model.OrchestraEntity;
 import com.project.springproject.model.dto.MusicianDTO;
 import com.project.springproject.repositories.MusicianRepository;
 import com.project.springproject.repositories.OrchestraRepository;
 import com.project.springproject.services.servicesInterfaces.MusicianService;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 /**
  * Service class for managing musicians.
@@ -44,14 +48,14 @@ public class MusicianServiceImpl implements MusicianService {
     @Override
     public MusicianDTO saveMusician(MusicianDTO musicianDTO) {
         try {
-            Musician musician = MusicianDTO.convertToEntity(musicianDTO);
+            MusicianEntity musician = MusicianDTO.convertToEntity(musicianDTO);
             if (musicianDTO.getOrchestraId() != null) {
-                Orchestra orchestra = orchestraRepository.findById(musicianDTO.getOrchestraId())
+                OrchestraEntity orchestra = orchestraRepository.findById(musicianDTO.getOrchestraId())
                         .orElseThrow(() -> new NoSuchElementException(
                                 "No orchestra found with id: " + musicianDTO.getOrchestraId()));
                 musician.setOrchestra(orchestra);
             }
-            Musician saveMusician = musicianRepository.save(musician);
+            MusicianEntity saveMusician = musicianRepository.save(musician);
             return MusicianDTO.convertToDTO(saveMusician);
         } catch (Exception e) {
             throw new RuntimeException("Failed to save musician: " + e.getMessage(), e);
@@ -68,7 +72,7 @@ public class MusicianServiceImpl implements MusicianService {
     @Override
     public MusicianDTO getMusicianById(Long id) {
         try {
-            Optional<Musician> musician = musicianRepository.findById(id);
+            Optional<MusicianEntity> musician = musicianRepository.findById(id);
             if (musician.isPresent()) {
                 return MusicianDTO.convertToDTO(musician.get());
             } else {
@@ -79,37 +83,54 @@ public class MusicianServiceImpl implements MusicianService {
         }
     }
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    public List<MusicianDTO> getAllMusicians() {
+        List<MusicianEntity> musicians = entityManager.createQuery(
+                "SELECT m FROM MusicianEntity m LEFT JOIN FETCH m.orchestra", MusicianEntity.class).getResultList();
+
+        return musicians.stream()
+                .map(musician -> modelMapper.map(musician, MusicianDTO.class))
+                .collect(Collectors.toList());
+    }
+
     /**
      * Retrieves a list of all musicians along with their details.
      *
      * @return A list of MusicianDTO objects representing the musicians.
      */
-    @Override
-    public List<MusicianDTO> getAllMusicians() {
-        List<Musician> musicians = musicianRepository.findAll();
-        List<MusicianDTO> musicianDTOs = new ArrayList<>();
-        for (Musician musician : musicians) {
-            MusicianDTO dto = new MusicianDTO();
-            // dto.setId(musician.getId());
-            dto.setFirstname(musician.getFirstname());
-            dto.setLastname(musician.getLastname());
-            // dto.setBirthdate(musician.getBirthdate());
-            dto.setInstrument(musician.getInstrument());
-            dto.setEmail(musician.getEmail());
-            // Check if the musician has an orchestra
-            if (musician.getOrchestra() != null) {
-                // Get the orchestra
-                Orchestra orchestra = orchestraRepository.findById(musician.getOrchestra().getId())
-                        .orElseThrow(() -> new NoSuchElementException(
-                                "No orchestra found with id: " + musician.getOrchestra().getId()));
-                // dto.setOrchestraId(orchestra.getId());
-                dto.setOrchestraName(orchestra.getName());
+    // @Override
+    // public List<MusicianDTO> getAllMusicians() {
+    // List<MusicianEntity> musicians = musicianRepository.findAll();
+    // List<MusicianDTO> musicianDTOs = new ArrayList<>();
+    // for (MusicianEntity musician : musicians) {
+    // MusicianDTO dto = new MusicianDTO();
+    // // dto.setId(musician.getId());
+    // dto.setFirstname(musician.getFirstname());
+    // dto.setLastname(musician.getLastname());
+    // // dto.setBirthdate(musician.getBirthdate());
+    // dto.setInstrument(musician.getInstrument());
+    // dto.setEmail(musician.getEmail());
+    // // Check if the musician has an orchestra
+    // if (musician.getOrchestra() != null) {
+    // // Get the orchestra
+    // OrchestraEntity orchestra =
+    // orchestraRepository.findById(musician.getOrchestra().getId())
+    // .orElseThrow(() -> new NoSuchElementException(
+    // "No orchestra found with id: " + musician.getOrchestra().getId()));
+    // // dto.setOrchestraId(orchestra.getId());
+    // dto.setOrchestraName(orchestra.getName());
 
-            }
-            musicianDTOs.add(dto);
-        }
-        return musicianDTOs;
-    }
+    // }
+    // musicianDTOs.add(dto);
+    // }
+    // return musicianDTOs;
+    // }
 
     /**
      * Deletes a musician by their ID.
@@ -138,11 +159,11 @@ public class MusicianServiceImpl implements MusicianService {
     @Override
     public MusicianDTO addMusicianToOrchestra(Long orchestraId, MusicianDTO musicianDTO) {
         try {
-            Orchestra orchestra = orchestraRepository.findById(orchestraId)
+            OrchestraEntity orchestra = orchestraRepository.findById(orchestraId)
                     .orElseThrow(() -> new NoSuchElementException("No orchestra found with id: " + orchestraId));
-            Musician musician = MusicianDTO.convertToEntity(musicianDTO);
+            MusicianEntity musician = MusicianDTO.convertToEntity(musicianDTO);
             musician.setOrchestra(orchestra);
-            Musician savedMusician = musicianRepository.save(musician);
+            MusicianEntity savedMusician = musicianRepository.save(musician);
             return MusicianDTO.convertToDTO(savedMusician);
         } catch (Exception e) {
             throw new RuntimeException("Failed to add musician to orchestra: " + e.getMessage(), e);
@@ -161,9 +182,9 @@ public class MusicianServiceImpl implements MusicianService {
     @Override
     public boolean removeMusicianFromOrchestra(Long orchestraId, Long musicianId) {
         try {
-            Orchestra orchestra = orchestraRepository.findById(orchestraId)
+            OrchestraEntity orchestra = orchestraRepository.findById(orchestraId)
                     .orElseThrow(() -> new NoSuchElementException("No orchestra found with id: " + orchestraId));
-            Musician musician = musicianRepository.findById(musicianId)
+            MusicianEntity musician = musicianRepository.findById(musicianId)
                     .orElseThrow(() -> new NoSuchElementException("No musician found with id: " + musicianId));
             if (musician.getOrchestra().equals(orchestra)) {
                 musician.setOrchestra(null);

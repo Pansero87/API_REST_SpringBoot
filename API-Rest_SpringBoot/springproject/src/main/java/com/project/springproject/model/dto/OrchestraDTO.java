@@ -1,6 +1,6 @@
 package com.project.springproject.model.dto;
 
-import com.project.springproject.model.Orchestra;
+import com.project.springproject.model.OrchestraEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +31,7 @@ public class OrchestraDTO {
      * @param orchestra The Orchestra entity object to be converted.
      * @return The converted OrchestraDTO object.
      */
-    public static OrchestraDTO convertToDTO(Orchestra orchestra) {
+    public static OrchestraDTO convertToDTO(OrchestraEntity orchestra) {
         OrchestraDTO orchestraDTO = new OrchestraDTO();
         orchestraDTO.setId(orchestra.getId());
         orchestraDTO.setName(orchestra.getName());
@@ -49,8 +49,8 @@ public class OrchestraDTO {
      * @param dto The OrchestraDTO object to be converted.
      * @return The converted Orchestra entity object.
      */
-    public static Orchestra convertToEntity(OrchestraDTO dto) {
-        Orchestra orchestra = new Orchestra();
+    public static OrchestraEntity convertToEntity(OrchestraDTO dto) {
+        OrchestraEntity orchestra = new OrchestraEntity();
         orchestra.setId(dto.getId());
         orchestra.setName(dto.getName());
         orchestra.setCity(dto.getCity());

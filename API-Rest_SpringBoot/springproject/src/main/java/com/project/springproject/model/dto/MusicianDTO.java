@@ -2,7 +2,7 @@ package com.project.springproject.model.dto;
 
 import java.util.Date;
 
-import com.project.springproject.model.Musician;
+import com.project.springproject.model.MusicianEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class MusicianDTO {
      * @param musician The Musician entity to be converted.
      * @return The converted MusicianDTO object.
      */
-    public static MusicianDTO convertToDTO(Musician musician) {
+    public static MusicianDTO convertToDTO(MusicianEntity musician) {
         MusicianDTO musicianDTO = new MusicianDTO();
         musicianDTO.setId(musician.getId());
         musicianDTO.setFirstname(musician.getFirstname());
@@ -43,10 +43,10 @@ public class MusicianDTO {
         musicianDTO.setBirthdate(musician.getBirthdate());
         musicianDTO.setInstrument(musician.getInstrument());
         musicianDTO.setEmail(musician.getEmail());
-        musicianDTO.setOrchestraName(musician.getOrchestra().getName());
-        if (musician.getOrchestra() != null) {
-            musicianDTO.setOrchestraId(musician.getOrchestra().getId());
-        }
+        // musicianDTO.setOrchestraName(musician.getOrchestra().getName());
+        // if (musician.getOrchestra() != null) {
+        // musicianDTO.setOrchestraId(musician.getOrchestra().getId());
+        // }
 
         return musicianDTO;
     }
@@ -57,8 +57,8 @@ public class MusicianDTO {
      * @param dto The MusicianDTO object to be converted.
      * @return The converted Musician entity.
      */
-    public static Musician convertToEntity(MusicianDTO dto) {
-        Musician musician = new Musician();
+    public static MusicianEntity convertToEntity(MusicianDTO dto) {
+        MusicianEntity musician = new MusicianEntity();
         musician.setId(dto.getId());
         musician.setFirstname(dto.getFirstname());
         musician.setLastname(dto.getLastname());

@@ -3,7 +3,7 @@ package com.project.springproject.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.project.springproject.model.Orchestra;
+import com.project.springproject.model.OrchestraEntity;
 
 import jakarta.transaction.Transactional;
 
@@ -14,6 +14,6 @@ import jakarta.transaction.Transactional;
  */
 @Repository
 @Transactional
-public interface OrchestraRepository extends JpaRepository<Orchestra, Long> {
+public interface OrchestraRepository extends JpaRepository<OrchestraEntity, Long> {
 
 }

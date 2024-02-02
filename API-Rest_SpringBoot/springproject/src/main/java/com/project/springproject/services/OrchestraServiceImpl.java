@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.springproject.model.Orchestra;
+import com.project.springproject.model.OrchestraEntity;
 import com.project.springproject.model.dto.OrchestraDTO;
 import com.project.springproject.repositories.OrchestraRepository;
 import com.project.springproject.services.servicesInterfaces.OrchestraService;
@@ -35,10 +35,10 @@ public class OrchestraServiceImpl implements OrchestraService {
     public OrchestraDTO saveOrchestra(OrchestraDTO orchestraDTO) {
         try {
             // Convert the DTO to an entity
-            Orchestra orchestra = OrchestraDTO.convertToEntity(orchestraDTO);
+            OrchestraEntity orchestra = OrchestraDTO.convertToEntity(orchestraDTO);
 
             // Save the entity to the database
-            Orchestra savedOrchestra = orchestraRepository.save(orchestra);
+            OrchestraEntity savedOrchestra = orchestraRepository.save(orchestra);
 
             // Convert the saved entity to a DTO and return it
             return OrchestraDTO.convertToDTO(savedOrchestra);
@@ -59,7 +59,7 @@ public class OrchestraServiceImpl implements OrchestraService {
     @Override
     public OrchestraDTO getOrchestraById(Long id) {
         try {
-            Optional<Orchestra> orchestra = orchestraRepository.findById(id);
+            Optional<OrchestraEntity> orchestra = orchestraRepository.findById(id);
             if (orchestra.isPresent()) {
                 return OrchestraDTO.convertToDTO(orchestra.get());
             } else {
@@ -80,9 +80,9 @@ public class OrchestraServiceImpl implements OrchestraService {
     @Override
     public List<OrchestraDTO> getAllOrchestras() {
         try {
-            List<Orchestra> orchestras = orchestraRepository.findAll();
+            List<OrchestraEntity> orchestras = orchestraRepository.findAll();
             List<OrchestraDTO> orchestraResult = new ArrayList<OrchestraDTO>();
-            for (Orchestra orchestra : orchestras) {
+            for (OrchestraEntity orchestra : orchestras) {
                 orchestraResult.add(OrchestraDTO.convertToDTO(orchestra));
             }
             return orchestraResult;
